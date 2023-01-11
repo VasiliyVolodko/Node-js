@@ -14,17 +14,25 @@ const validator = createValidator()
 
 app.use(express.json())
 
-const UserList: User[] = []
+const UserList: User[] = [
+    new User('hello4', 'world', 22),
+    new User('hello5', 'world', 22),
+    new User('hello6', 'world', 22),
+    new User('hello', 'world', 22),
+    new User('hello1', 'world', 22),
+    new User('hello2', 'world', 22),
+    new User('hello3', 'world', 22),
+]
 
-app.post('/user', validator.body(bodySchema), (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
-  const { login, password, age } = req.body
-  const newUser = new User(login, password, age)
-  UserList.push(newUser)
-  res.status(200).end()
+app.post('/users', validator.body(bodySchema), (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
+    const { login, password, age } = req.body
+    const newUser = new User(login, password, age)
+    UserList.push(newUser)
+    res.status(200).json(newUser)
 })
 
-app.patch('/user', (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
-    const { id } = req.query
+app.patch('/users/:id', validator.body(bodySchema), (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
+    const { id } = req.params
     const userIndex = UserList.findIndex(user => user.id === id)
     UserList[userIndex] = {
         ...UserList[userIndex],
@@ -34,22 +42,34 @@ app.patch('/user', (req: ValidatedRequest<UserRequestSchema>, res: Response) => 
 })
 
 app.get('/users', (req, res:Response) => {
-    res.status(200).json(JSON.stringify(UserList.filter(user => !user.isDeleted)))
+    res.status(200).json(UserList.filter(user => !user.isDeleted))
 })
 
-app.get('/user', (req: Request, res: Response) => {
-    const { id } = req.query
+app.get('/users/:id', (req: Request, res: Response) => {
+    const { id } = req.params
     const user = UserList.find(user => user.id === id)
     if (user.isDeleted) {
         res.status(404).send('User not found')
     }
-    res.status(200).json(JSON.stringify(user))
+    res.status(200).json(user)
 })
 
-app.delete('/user', (req: Request, res: Response) => {
-    const { id } = req.query
+app.delete('/users/:id', (req: Request, res: Response) => {
+    const { id } = req.params
     UserList.find(user => user.id === id).isDeleted = true
     res.status(200).end()
+})
+
+app.get('/auto-suggest-users', (req: Request, res: Response) => {
+    const { limit, loginSubstring } = req.query
+    const filteredUsers = UserList
+        .sort((a, b) => a.login.localeCompare(b.login))
+        .filter(user => user.login.includes(loginSubstring as string))
+        .slice(0, Number(limit))
+    if(!filteredUsers.length) {
+        res.status(404).send('Users not found')
+    }
+    res.status(200).json(filteredUsers)
 })
 
 app.listen(port, () => {
