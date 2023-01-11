@@ -14,15 +14,7 @@ const validator = createValidator()
 
 app.use(express.json())
 
-const UserList: User[] = [
-    new User('hello4', 'world', 22),
-    new User('hello5', 'world', 22),
-    new User('hello6', 'world', 22),
-    new User('hello', 'world', 22),
-    new User('hello1', 'world', 22),
-    new User('hello2', 'world', 22),
-    new User('hello3', 'world', 22),
-]
+const UserList: User[] = []
 
 app.post('/users', validator.body(bodySchema), (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
     const { login, password, age } = req.body
