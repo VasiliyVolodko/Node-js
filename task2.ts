@@ -1,15 +1,17 @@
 const csvFilePath = './csv/nodejs-hw1-ex1.csv';
 import csv from 'csvtojson';
-import { writeFileSync } from 'fs';
+import { createReadStream, createWriteStream } from 'fs';
 
-async function converter(filePath: string) {
-    try {
-        const jsonObj = await csv().fromFile(filePath)
-        const fileString = jsonObj.reduce((acc, item) => acc + JSON.stringify(item) + '\n', '')
-        writeFileSync('demo.txt', fileString);
-    } catch (error) {
-        console.log(error)
-    }
+function converter(filePath: string) {
+    const readStream = createReadStream(filePath);
+    const writeStream = createWriteStream('demo.txt')
+    readStream.on('error', (err) => {
+        console.log('Error: ' + err)
+    })
+    writeStream.on('error', (err) => {
+        console.log('Error: ' + err)
+    })
+    readStream.pipe(csv()).pipe(writeStream)
 }
 
 converter(csvFilePath)
