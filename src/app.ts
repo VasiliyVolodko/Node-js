@@ -25,43 +25,58 @@ app.post('/users', validator.body(bodySchema), (req: ValidatedRequest<UserReques
 
 app.patch('/users/:id', validator.body(bodySchema), (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
     const { id } = req.params
-    const userIndex = UserList.findIndex(user => user.id === id)
-    UserList[userIndex] = {
-        ...UserList[userIndex],
-        ...req.body
+    const userIndex = UserList.findIndex((user) => user.id === id)
+    if (userIndex !== -1) {
+        UserList[userIndex] = {
+            ...UserList[userIndex],
+            ...req.body
+        }
+        res.status(200).end()
+    } else {
+        res.status(404).send('User not found')
     }
-    res.status(200).end()
 })
 
 app.get('/users', (req, res:Response) => {
-    res.status(200).json(UserList.filter(user => !user.isDeleted))
+    res.status(200).json(UserList.filter((user) => !user.isDeleted))
 })
 
 app.get('/users/:id', (req: Request, res: Response) => {
     const { id } = req.params
-    const user = UserList.find(user => user.id === id)
+    const user = UserList.find((user) => user.id === id)
+    if (!user) {
+        res.status(404).send('User not found')
+        return
+    }
     if (user.isDeleted) {
         res.status(404).send('User not found')
+    } else {
+        res.status(200).json(user)
     }
-    res.status(200).json(user)
 })
 
 app.delete('/users/:id', (req: Request, res: Response) => {
     const { id } = req.params
-    UserList.find(user => user.id === id).isDeleted = true
-    res.status(200).end()
+    const userIndex = UserList.findIndex((user) => user.id === id)
+    if (userIndex !== -1) {
+        UserList[userIndex].isDeleted = true
+        res.status(200).end()
+    } else {
+        res.status(404).end()
+    }
 })
 
 app.get('/auto-suggest-users', (req: Request, res: Response) => {
     const { limit, loginSubstring } = req.query
     const filteredUsers = UserList
         .sort((a, b) => a.login.localeCompare(b.login))
-        .filter(user => user.login.includes(loginSubstring as string))
+        .filter((user) => user.login.includes(loginSubstring as string))
         .slice(0, Number(limit))
-    if(!filteredUsers.length) {
-        res.status(404).send('Users not found')
+    if (!filteredUsers.length) {
+        res.status(200).send([])
+    } else {
+        res.status(200).json(filteredUsers)
     }
-    res.status(200).json(filteredUsers)
 })
 
 app.listen(port, () => {

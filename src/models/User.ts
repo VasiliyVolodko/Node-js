@@ -1,11 +1,11 @@
-import { v4 } from "uuid";
+import { v4 } from 'uuid'
 
 export class User {
-    id: string;
-    login: string;
-    password: string;
-    age: number;
-    isDeleted: boolean;
+    id: string
+    login: string
+    password: string
+    age: number
+    isDeleted: boolean
 
     constructor(login: string, password: string, age: number) {
         this.id = v4()

@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import {
     ContainerTypes,
-    ValidatedRequestSchema,
+    ValidatedRequestSchema
 } from 'express-joi-validation'
 
 export const bodySchema = Joi.object({
