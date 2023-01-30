@@ -1,4 +1,4 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, Optional } from 'sequelize'
 import { db } from '../data/config'
 
 export type UserAttributes = {
@@ -12,11 +12,11 @@ export type UserAttributes = {
 type UserCreationAttributes = Optional<UserAttributes, 'id' | 'isDeleted'>;
 
 class User extends Model<UserAttributes, UserCreationAttributes> {
-    declare id?: number;
-    declare login: string;
-    declare password: string;
-    declare age: number;
-    declare isDeleted?: boolean;
+    declare id?: number
+    declare login: string
+    declare password: string
+    declare age: number
+    declare isDeleted?: boolean
 }
 
 User.init({
@@ -45,6 +45,6 @@ User.init({
     modelName: 'User',
     tableName: 'users',
     timestamps: false
-});
+})
 
 export { User }

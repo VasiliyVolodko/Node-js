@@ -1,5 +1,4 @@
-import { Sequelize } from "sequelize";
-import { User, UserAttributes } from "../models/User";
+import { User, UserAttributes } from '../models/User'
 
 export class UserService {
     static async getUsers(): Promise<UserAttributes[]> {
@@ -8,9 +7,9 @@ export class UserService {
                 isDeleted: false
             }
         })
-        return allUsers;
+        return allUsers
     }
-    
+
     static async createUser(newUser: UserAttributes): Promise<UserAttributes> {
         const user = await User.create(newUser)
         return user

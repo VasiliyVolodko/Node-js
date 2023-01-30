@@ -7,7 +7,7 @@ import { UserAttributes } from '../models/User'
 import { UserService } from '../services/UserServies'
 import { bodySchema, UserRequestSchema } from '../validation/userShema'
 
-var router = express.Router();
+const router = express.Router()
 
 const validator = createValidator()
 
@@ -39,7 +39,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.delete('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
-    const user = await UserService.deleteUser(Number(id))
+    await UserService.deleteUser(Number(id))
     res.status(200).send('User deleted successfully')
 })
 
@@ -48,7 +48,7 @@ router.get('/auto-suggest-users', async (req: Request, res: Response) => {
     const allUsers = await UserService.getUsers()
     const filteredUsers = allUsers
         .sort((a, b) => a.login.localeCompare(b.login))
-        .filter(user => user.login.includes(loginSubstring as string))
+        .filter((user) => user.login.includes(loginSubstring as string))
         .slice(0, Number(limit))
     if (!filteredUsers.length) {
         res.status(404).send('Users not found')

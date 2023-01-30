@@ -12,15 +12,15 @@ app.use('/users', router)
 
 const initApp = async () => {
     try {
-        await db.authenticate();
-        console.log("Connection has been established successfully.")
+        await db.authenticate()
+        console.log('Connection has been established successfully.')
         User.sync()
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
         })
     } catch (error) {
-        console.error("Unable to connect to the database:", error.original);
+        console.error('Unable to connect to the database:', error.original)
     }
 }
 
