@@ -20,6 +20,10 @@ user.post('/', validator.body(userBodySchema), async (req: ValidatedRequest<User
 
 user.patch('/:id', validator.body(userBodySchema), async (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
     const { id } = req.params
+    if(!id) {
+        res.status(404).send(`User ${id} not found`)
+        return
+    }
     const user = await UserService.updateUser(Number(id), req.body)
     if(!user) {
         res.status(404).send(`User ${id} not found`)
@@ -29,13 +33,16 @@ user.patch('/:id', validator.body(userBodySchema), async (req: ValidatedRequest<
 })
 
 user.get('/', async (req, res: Response) => {
-user.get('/', async (req, res: Response) => {
     const allUsers = await UserService.getUsers()
     res.status(200).json(allUsers)
 })
 
 user.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
+    if (!id) {
+        res.status(404).send(`User ${id} not found`)
+        return
+    }
     const user: UserAttributes = await UserService.getUser(Number(id))
     if (!user || user.isDeleted) {
         res.status(404).send(`User ${id} not found`)
@@ -46,9 +53,11 @@ user.get('/:id', async (req: Request, res: Response) => {
 })
 
 user.delete('/:id', async (req: Request, res: Response) => {
-user.delete('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
-
+    if (!id) {
+        res.status(404).send(`User ${id} not found`)
+        return
+    }
     const user: UserAttributes = await UserService.getUser(Number(id))
     if (user.isDeleted) {
         res.status(404).send(`User ${id} not found`)
