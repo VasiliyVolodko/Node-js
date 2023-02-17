@@ -1,5 +1,5 @@
 import express from 'express'
-import router from './routers/user'
+import { user, autoSuggestedUsers } from './routers/user'
 import { db } from './data/config'
 import { User } from './models/User'
 
@@ -8,7 +8,8 @@ const port = 3000
 
 app.use(express.json())
 
-app.use('/users', router)
+app.use('/users', user)
+app.use('/auto-suggested-users', autoSuggestedUsers)
 
 const initApp = async () => {
     try {
