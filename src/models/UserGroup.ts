@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import { db } from '../data/config'
-import { Group } from './Group';
-import { User } from './User';
+import { Group } from './Group'
+import { User } from './User'
 
 class UserGroup extends Model {
     declare user_id: number
@@ -21,7 +21,7 @@ UserGroup.init({
         type: DataTypes.INTEGER,
         references: {
             model: Group,
-            key: 'id',
+            key: 'id'
         },
         unique: false
     }
@@ -32,12 +32,12 @@ UserGroup.init({
     timestamps: false
 })
 
-User.belongsToMany(Group, {
+User.belongsToM(Group, {
     through: UserGroup,
     foreignKey: 'user_id',
     otherKey: 'group_id'
 })
-Group.belongsToMany(User, {
+Group.belongsToM(User, {
     through: UserGroup,
     foreignKey: 'group_id',
     otherKey: 'user_id'

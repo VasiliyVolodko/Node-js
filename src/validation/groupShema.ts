@@ -8,7 +8,7 @@ export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES'
 
 export const groupBodySchema = Joi.object({
     name: Joi.string().required(),
-    permissions: Joi.array().items(Joi.string().valid('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')).required(),
+    permissions: Joi.array().items(Joi.string().valid('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')).required()
 })
 
 export interface GroupRequestSchema extends ValidatedRequestSchema {

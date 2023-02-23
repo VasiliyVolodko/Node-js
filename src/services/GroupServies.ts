@@ -39,7 +39,7 @@ export class GroupService {
     static async addUsersToGroup(id: number, userIds: number[]) {
         try {
             const result = await Promise.all(userIds.map(async (userId) => {
-                const res = await db.transaction(async (t) => {
+                const res = await db.transaction(async () => {
                     return await UserGroup.create({
                         group_id: id,
                         user_id: userId
@@ -47,9 +47,9 @@ export class GroupService {
                 })
 
                 return Promise.resolve(res)
-            })) 
+            }))
             return result
-        } catch(e) {
+        } catch (e) {
             console.log(e)
         }
     }

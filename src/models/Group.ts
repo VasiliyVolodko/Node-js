@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from 'sequelize'
-import { Permission } from '../validation/groupShema';
+import { Permission } from '../validation/groupShema'
 import { db } from '../data/config'
 
 export type GroupAttributes = {

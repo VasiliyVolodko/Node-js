@@ -13,7 +13,7 @@ export class UserService {
 
     static async getAutoSuggestedUsers(substr?: string, limit?: number): Promise<UserAttributes[]> {
         let users: UserAttributes[]
-        if(!substr) {
+        if (!substr) {
             users = await UserService.getUsers()
         } else {
             users = await User.findAll({
@@ -23,8 +23,8 @@ export class UserService {
                     }
                 }
             })
-        }       
-        if(!limit) {
+        }
+        if (!limit) {
             return users
         } else {
             return users.slice(0, limit)
