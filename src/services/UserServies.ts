@@ -31,6 +31,18 @@ export class UserService {
         }
     }
 
+    static async getUserByLogin(login: string): Promise<UserAttributes> {
+        const user: UserAttributes = await User.findOne({
+                where: {
+                    login: {
+                        [Op.eq]: login
+                    }
+                }
+            })
+
+        return user
+    }
+
     static async createUser(newUser: UserAttributes): Promise<UserAttributes> {
         const user = await User.create(newUser)
         return user

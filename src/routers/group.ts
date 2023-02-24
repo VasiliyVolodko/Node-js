@@ -10,11 +10,13 @@ import { GroupAttributes } from '../models/Group'
 import { GroupService } from '../services/GroupServies'
 import { GroupRequestSchema, groupBodySchema, addUserToGroupBodySchema } from '../validation/groupShema'
 import { UserAttributes } from '../models/User'
+import { authenticate } from '../middleware/auth'
 import { logger } from '../logger/logger'
 
 const group = express.Router()
 
 const validator = createValidator()
+group.use(authenticate)
 
 group.post('/', validator.body(groupBodySchema), async (req: ValidatedRequest<GroupRequestSchema>, res: Response) => {
     const newGroup: GroupAttributes = req.body

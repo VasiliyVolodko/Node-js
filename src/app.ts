@@ -6,6 +6,8 @@ import { User } from './models/User'
 import { Group } from './models/Group'
 import { UserGroup } from './models/UserGroup'
 import * as expressWinston from 'express-winston'
+import cors from 'cors'
+import login from './routers/login'
 import { logger } from './logger/logger'
 
 const app = express()
@@ -28,6 +30,8 @@ app.use(expressWinston.logger({
 app.use('/users', user)
 app.use('/auto-suggested-users', autoSuggestedUsers)
 app.use('/groups', group)
+app.use('/login', login)
+app.use(cors())
 
 app.use(clientErrorHandler)
 

@@ -5,6 +5,7 @@ import {
     ValidatedRequest,
     createValidator
 } from 'express-joi-validation'
+import { authenticate } from '../middleware/auth'
 import { logger } from '../logger/logger'
 import { UserAttributes } from '../models/User'
 import { UserService } from '../services/UserServies'
@@ -14,6 +15,7 @@ const user = express.Router()
 const autoSuggestedUsers = express.Router()
 
 const validator = createValidator()
+user.use(authenticate)
 
 user.post('/', validator.body(userBodySchema), async (req: ValidatedRequest<UserRequestSchema>, res: Response) => {
     const newUser: UserAttributes = req.body
