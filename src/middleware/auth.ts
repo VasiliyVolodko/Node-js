@@ -9,7 +9,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
             return
         }
 
-        const userData = TokenService.validateAccessToken(token)
+        const userData = TokenService.validateAccessToken(token as string)
         if (!userData) {
             res.status(403).send('Forbidden Error').end()
             return
