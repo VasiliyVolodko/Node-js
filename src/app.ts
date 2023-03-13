@@ -6,7 +6,7 @@ import { User } from './models/User'
 import { Group } from './models/Group'
 import { UserGroup } from './models/UserGroup'
 import * as expressWinston from 'express-winston'
-import cors from 'cors'
+import cors, { CorsOptions } from 'cors'
 import login from './routers/login'
 import { logger } from './logger/logger'
 
@@ -27,11 +27,26 @@ app.use(expressWinston.logger({
     msg: getMessage
 }))
 
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,PATCH,POST,DELETE,OPTIONS',
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(options))
+
 app.use('/users', user)
 app.use('/auto-suggested-users', autoSuggestedUsers)
 app.use('/groups', group)
 app.use('/login', login)
-app.use(cors())
 
 app.use(clientErrorHandler)
 
