@@ -32,12 +32,12 @@ UserGroup.init({
     timestamps: false
 })
 
-User.belongsToM(Group, {
+User.belongsToMany(Group, {
     through: UserGroup,
     foreignKey: 'user_id',
     otherKey: 'group_id'
 })
-Group.belongsToM(User, {
+Group.belongsToMany(User, {
     through: UserGroup,
     foreignKey: 'group_id',
     otherKey: 'user_id'

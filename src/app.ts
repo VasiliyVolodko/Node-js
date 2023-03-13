@@ -5,8 +5,8 @@ import { db } from './data/config'
 import { User } from './models/User'
 import { Group } from './models/Group'
 import { UserGroup } from './models/UserGroup'
-import * as winston from 'winston'
 import * as expressWinston from 'express-winston'
+import { logger } from './logger/logger'
 
 const app = express()
 const port = 3000
@@ -20,11 +20,7 @@ const getMessage = (req: Request): string =>
     ${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`
 
 app.use(expressWinston.logger({
-    transports: [
-        new winston.transports.Console({
-
-        })
-    ],
+    winstonInstance: logger,
     meta: false,
     msg: getMessage
 }))
@@ -37,23 +33,23 @@ app.use(clientErrorHandler)
 
 process
     .on('uncaughtException', (err) => {
-        console.error(err, 'Uncaught Exception thrown')
+        logger.error('Uncaught Exception thrown' + err.message)
         process.exit(1)
     })
 
 const initApp = async () => {
     try {
         await db.authenticate()
-        console.log('Connection has been established successfully.')
+        logger.info('Connection has been established successfully.')
         User.sync()
         Group.sync()
         UserGroup.sync()
 
         app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
+            logger.info(`Example app listening on port ${port}`)
         })
     } catch (error) {
-        console.error('Unable to connect to the database:', error.original)
+        logger.error('Unable to connect to the database:', error.original)
     }
 }
 

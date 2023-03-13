@@ -5,6 +5,7 @@ import {
     ValidatedRequest,
     createValidator
 } from 'express-joi-validation'
+import { logger } from '../logger/logger'
 import { UserAttributes } from '../models/User'
 import { UserService } from '../services/UserServies'
 import { userBodySchema, UserRequestSchema } from '../validation/userShema'
@@ -34,7 +35,7 @@ user.patch('/:id', validator.body(userBodySchema), async (req: ValidatedRequest<
         }
         res.status(200).json(user)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 
@@ -45,7 +46,7 @@ user.get('/', async (req, res: Response) => {
         const allUsers = await UserService.getUsers()
         res.status(200).json(allUsers)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -65,7 +66,7 @@ user.get('/:id', async (req: Request, res: Response) => {
             res.status(200).json(user)
         }
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -86,7 +87,7 @@ user.delete('/:id', async (req: Request, res: Response) => {
         await UserService.deleteUser(Number(id))
         res.status(200).send('User deleted successfully')
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -101,7 +102,7 @@ autoSuggestedUsers.get('/', async (req: Request, res: Response) => {
             res.status(200).json(users)
         }
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })

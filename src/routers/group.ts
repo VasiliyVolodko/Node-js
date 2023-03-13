@@ -10,6 +10,7 @@ import { GroupAttributes } from '../models/Group'
 import { GroupService } from '../services/GroupServies'
 import { GroupRequestSchema, groupBodySchema, addUserToGroupBodySchema } from '../validation/groupShema'
 import { UserAttributes } from '../models/User'
+import { logger } from '../logger/logger'
 
 const group = express.Router()
 
@@ -21,7 +22,7 @@ group.post('/', validator.body(groupBodySchema), async (req: ValidatedRequest<Gr
         const group = await GroupService.createGroup(newGroup)
         res.status(200).json(group)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with
+        logger.error(`There is an ${e} in ${req.method} method called with
          ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
@@ -37,7 +38,7 @@ group.patch('/:id', validator.body(groupBodySchema), async (req: ValidatedReques
         }
         res.status(200).json(group)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -47,7 +48,7 @@ group.get('/', async (req, res: Response) => {
         const allGroups = await GroupService.getGroups()
         res.status(200).json(allGroups)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -62,7 +63,7 @@ group.get('/:id', async (req: Request, res: Response) => {
         }
         res.status(200).json(group)
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -78,7 +79,7 @@ group.delete('/:id', async (req: Request, res: Response) => {
         await GroupService.deleteGroup(Number(id))
         res.status(200).send('Group deleted successfully')
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
@@ -108,7 +109,7 @@ group.post('/:id/addUsers', validator.body(addUserToGroupBodySchema), async (req
             res.status(404).send(`Group${users.length === 1 ? '' : 's'} ${users} not found`)
         }
     } catch (e) {
-        console.log(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
+        logger.error(`There is an ${e} in ${req.method} method called with ${Object.keys(req.params).length ? `, params: ${JSON.stringify(req.params)}` : ''}${Object.keys(req.query).length ? `, query: ${JSON.stringify(req.query)}` : ''}`)
         res.status(404).end()
     }
 })
