@@ -17,7 +17,6 @@ const group = express.Router()
 
 const validator = createValidator()
 group.use(authenticate)
-group.use(authenticate)
 
 group.post('/', validator.body(groupBodySchema), async (req: ValidatedRequest<GroupRequestSchema>, res: Response) => {
     const newGroup: GroupAttributes = req.body

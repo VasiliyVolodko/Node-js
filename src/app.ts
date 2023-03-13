@@ -8,8 +8,6 @@ import { UserGroup } from './models/UserGroup'
 import * as expressWinston from 'express-winston'
 import cors from 'cors'
 import login from './routers/login'
-import cors, { CorsOptions } from 'cors'
-import login from './routers/login'
 import { logger } from './logger/logger'
 
 const app = express()
