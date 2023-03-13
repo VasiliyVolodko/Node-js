@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "express-joi-validation": "^5.0.1",
     "express-winston": "^4.2.0",
