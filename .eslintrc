@@ -1,0 +1,80 @@
+{
+    "root": true,
+    "env": {
+        "commonjs": true,
+        "node": true,
+        "browser": true,
+        "jest": true,
+        "es6": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "no-debugger": "error",
+        "brace-style": [
+            "error",
+            "1tbs"
+        ],
+        "computed-property-spacing": [
+            "error",
+            "never"
+        ],
+        "no-trailing-spaces": "error",
+        "keyword-spacing": "error",
+        "spaced-comment": [
+            "error",
+            "always"
+        ],
+        "vars-on-top": "error",
+        "no-undef": "error",
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "eol-last": "error",
+        "no-multiple-empty-lines": "error",
+        "guard-for-in": "error",
+        "no-nested-ternary": "error",
+        "no-eval": "error",
+        "no-with": "error",
+        "valid-typeof": "error",
+        "no-unused-vars": [
+            "error",
+            {
+                "vars": "all",
+                "args": "after-used",
+                "ignoreRestSiblings": true
+            }
+        ],
+        "no-continue": "error",
+        "no-console": "off",
+        "no-extra-semi": "error",
+        "no-unreachable": "error",
+        "no-unused-expressions": "error",
+        "max-len": [
+            "error",
+            160,
+            2
+        ],
+        "arrow-parens": "error",
+        "function-call-argument-newline": [
+            "error",
+            "consistent"
+        ]
+    }
+}
