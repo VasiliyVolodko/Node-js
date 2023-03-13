@@ -6,7 +6,7 @@ import { User } from './models/User'
 import { Group } from './models/Group'
 import { UserGroup } from './models/UserGroup'
 import * as expressWinston from 'express-winston'
-import cors, { CorsOptions } from 'cors'
+import cors from 'cors'
 import login from './routers/login'
 import { logger } from './logger/logger'
 

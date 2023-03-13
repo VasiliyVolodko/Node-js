@@ -1,6 +1,9 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize } from 'sequelize' 
+import dotenv from 'dotenv'
 
-export const db = new Sequelize('atycubwu', 'atycubwu', '8hL_MMVJHtCNEGt8ebU4ClISr4XOYDqA', {
-    host: 'mel.db.elephantsql.com',
-    dialect: 'postgres'
+dotenv.config({ debug: true })
+
+export const db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+  host: process.env.DB_URL,
+  dialect: 'postgres'
 })

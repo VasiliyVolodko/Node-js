@@ -27,13 +27,13 @@ export class GroupService {
         return user
     }
 
-    static async updateGroup(id: number, updateUser: Partial<GroupAttributes>) {
-        const user = await Group.update(updateUser, {
+    static async updateGroup(id: number, updateGroup: Partial<GroupAttributes>) {
+      const group = await Group.update(updateGroup, {
             where: {
                 id
             }
         })
-        return user
+      return group
     }
 
     static async addUsersToGroup(id: number, userIds: number[]) {
